@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,6 +10,39 @@ import MemeList from './MemeList.js'
 import logo from './logo.png';
 
 export default function App() {
+  const [memes, setMemes] = useState([
+    {
+      id: 1,
+      upvotes: 7,
+      downvotes: 3,
+    },
+    {
+      id: 2,
+      upvotes: 3,
+      downvotes: 3,
+    },
+    {
+      id: 3,
+      upvotes: 3,
+      downvotes: 3,
+    },
+    {
+      id: 4,
+      upvotes: 3,
+      downvotes: 3,
+    },
+  ]);
+
+  function updateMeme(updatedMem) {
+    const newMems = memes.map((mem) => {
+      if (mem.id === updatedMem.id) {
+        return updatedMem;
+      }
+      return mem;
+    });
+    setMemes(newMems);
+  }
+
   return (
     <Router>
       <div>
@@ -27,22 +60,14 @@ export default function App() {
         <body className="App-body">
           <Switch>
             <Route path="/hot">
-              <Hot />
+              <MemeList memes={memes} updateMeme={updateMeme} isHot={true} />
             </Route>
             <Route path="/">
-              <Home />
+              <MemeList memes={memes} updateMeme={updateMeme} isHot={false} />
             </Route>
           </Switch>
         </body>
       </div >
     </Router >
   );
-}
-
-function Home() {
-  return <MemeList/>
-}
-
-function Hot() {
-  return <MemeList/>
 }
